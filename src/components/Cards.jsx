@@ -20,25 +20,37 @@ const Cards = () => {
   if (loading) return <h1>Loading...</h1>
   if (error) return <h1>Error loading data</h1>
 
+  function getInitials(name) {
+    if (!name) return ''
+    return name
+      .split(' ')
+      .map((n) => n[0])
+      .slice(0, 2)
+      .join('')
+      .toUpperCase()
+  }
+
   return (
-
-
     <>
-        <div className="searchbar">
-            {/* <input type="text" placeholder="Search..." onChange={SearchUser} /> */}
-        </div>
+      <div className="searchbar">
+        {/* search input could go here */}
+      </div>
 
-        <div className='containerStyle'>
-      {data.map((u) => (
-        <div key={u.id} className='cardStyle'>
-          <h3>{u.name}</h3>
-          <p><strong>Username:</strong> {u.username}</p>
-          <p><strong>Email:</strong> {u.email}</p>
-          <p><strong>Website:</strong> {u.website}</p>
-          <p><strong>Company:</strong> {u.company?.name}</p>
-        </div>
-      ))}
-    </div>
+      <div className="cards-container">
+        {data.map((u) => (
+          <article key={u.id} className="card">
+            <div className="avatar">{getInitials(u.name)}</div>
+            <div className="card-body">
+              <h4 className="card-title">{u.name}</h4>
+              <div className="meta-row">
+                <p className="card-meta">{u.username}</p>
+                <p className="card-meta">{u.email}</p>
+              </div>
+              <p className="card-meta">{u.address?.city} · {u.company?.name}</p>
+            </div>
+          </article>
+        ))}
+      </div>
     </>
   )
 }
